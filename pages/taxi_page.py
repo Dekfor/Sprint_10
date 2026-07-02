@@ -62,4 +62,5 @@ class TaxiPage(BasePage):
         self.click(TaxiPageLocators.ORDER_BUTTON)
 
     def expand_requirements(self):
+        self.find_element(TaxiPageLocators.REQUIREMENTS_HEADER)
         self.click(TaxiPageLocators.REQUIREMENTS_HEADER)
