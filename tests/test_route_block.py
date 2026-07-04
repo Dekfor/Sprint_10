@@ -13,9 +13,11 @@ class TestRouteBlock:
 
         main = MainPage(driver)
 
-        main.fill_route(FROM_ADDRESS, TO_ADDRESS)
+        with allure.step("Вводим разные адреса маршрута"):
+            main.fill_route(FROM_ADDRESS, TO_ADDRESS)
 
-        assert main.route_block_is_visible()
+        with allure.step("Проверяем отображение блока выбора маршрута"):
+            assert main.route_block_is_visible()
 
     @allure.title("При одинаковых адресах отображается бесплатный маршрут")
     def test_same_addresses_show_zero_route(self, driver):
@@ -23,8 +25,10 @@ class TestRouteBlock:
         main = MainPage(driver)
         route = RoutePage(driver)
 
-        main.fill_route(FROM_ADDRESS, FROM_ADDRESS)
+        with allure.step("Вводим одинаковые адреса"):
+            main.fill_route(FROM_ADDRESS, FROM_ADDRESS)
 
-        assert route.get_price() == "Авто Бесплатно"
-        assert route.get_duration() == "В пути 0 мин."
+        with allure.step("Проверяем, что маршрут бесплатный и нулевой по времени"):
+            assert route.get_price() == "Авто Бесплатно"
+            assert route.get_duration() == "В пути 0 мин."
         

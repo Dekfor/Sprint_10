@@ -14,7 +14,10 @@ class TestRouteDrawing:
 
         main = MainPage(driver)
 
-        main.fill_route(FROM_ADDRESS, TO_ADDRESS)
-
-        assert main.map_is_visible()
-        assert main.route_block_is_visible()
+        with allure.step("Вводим адреса маршрута"):
+            main.fill_route(FROM_ADDRESS, TO_ADDRESS)
+        with allure.step("Проверяем отображение карты"):
+            assert main.map_is_visible()
+        with allure.step("Проверяем отображение блока маршрута"):
+            assert main.route_block_is_visible()
+    

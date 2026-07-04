@@ -10,9 +10,11 @@ class TestTaxiOrder:
         route_page.click_fast()
         route_page.click_call_taxi()
 
+
     @allure.title("Открывается форма заказа со всеми тарифами и полями")
     def test_taxi_order_form_displayed(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
         assert taxi_page.taxi_modal_visible()
         assert taxi_page.tariffs_count() == 6
@@ -20,9 +22,13 @@ class TestTaxiOrder:
 
     @allure.title("Тариф Рабочий - tooltip корректный")
     def test_tariff_work(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
-        taxi_page.open_tariff_tooltip(0)
+        taxi_page.wait.until(lambda d: taxi_page.taxi_modal_visible())
+        
+        with allure.step("Открываем tooltip тарифа Рабочий"):
+            taxi_page.open_tariff_tooltip(0)
 
         assert taxi_page.tooltip_visible()
         assert taxi_page.tooltip_title() == "Рабочий"
@@ -31,18 +37,22 @@ class TestTaxiOrder:
     @allure.title("Тариф Сонный - tooltip (ожидаемый баг)")
     @pytest.mark.xfail(reason="BUG: неверный текст tooltip для тарифа Сонный")
     def test_tariff_sleepy(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
-        taxi_page.open_tariff_tooltip(1)
+        with allure.step("Открываем tooltip тарифа Сонный"):
+            taxi_page.open_tariff_tooltip(1)
 
         assert taxi_page.tooltip_title() == "Сонный"
         assert taxi_page.tooltip_description() == SLEEPY_DESCRIPTION
 
     @allure.title("Тариф Отпускной - tooltip корректный")
     def test_tariff_vacation(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
-        taxi_page.open_tariff_tooltip(2)
+        with allure.step("Открываем tooltip тарифа Отпускной"):
+            taxi_page.open_tariff_tooltip(2)
 
         assert taxi_page.tooltip_title() == "Отпускной"
         assert taxi_page.tooltip_description() == VACATION_DESCRIPTION
@@ -50,34 +60,41 @@ class TestTaxiOrder:
     @allure.title("Тариф Разговорчивый - tooltip (ожидаемый баг)")
     @pytest.mark.xfail(reason="BUG: неверный текст tooltip для тарифа Разговорчивый")
     def test_tariff_talkative(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
-        taxi_page.open_tariff_tooltip(3)
+        with allure.step("Открываем tooltip тарифа Разговорчивый"):
+            taxi_page.open_tariff_tooltip(3)
 
         assert taxi_page.tooltip_title() == "Разговорчивый"
         assert taxi_page.tooltip_description() == TALKATIVE_DESCRIPTION
 
     @allure.title("Тариф Утешительный - tooltip корректный")
     def test_tariff_comfort(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
-        taxi_page.open_tariff_tooltip(4)
+        with allure.step("Открываем tooltip тарифа Утешительный"):
+            taxi_page.open_tariff_tooltip(4)
 
         assert taxi_page.tooltip_title() == "Утешительный"
         assert taxi_page.tooltip_description() == COMFORT_DESCRIPTION
 
     @allure.title("Тариф Глянцевый - tooltip корректный")
     def test_tariff_glossy(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
-        taxi_page.open_tariff_tooltip(5)
+        with allure.step("Открываем tooltip тарифа Глянцевый"):
+            taxi_page.open_tariff_tooltip(5)
 
         assert taxi_page.tooltip_title() == "Глянцевый"
         assert taxi_page.tooltip_description() == GLOSSY_DESCRIPTION
 
     @allure.title("Под тарифами отображается блок подготовки заказа")
     def test_order_preparation_block_displayed(self, main_page, route_page, taxi_page):
-        self.open_taxi_order(main_page, route_page)
+        with allure.step("Открываем форму заказа такси"):
+            self.open_taxi_order(main_page, route_page)
 
         assert taxi_page.phone_button_visible()
         assert taxi_page.payment_button_visible()

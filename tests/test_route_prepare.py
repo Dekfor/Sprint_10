@@ -16,19 +16,20 @@ class TestRoutePrepare:
         main = MainPage(driver)
         route = RoutePage(driver)
 
-        main.fill_route(FROM_ADDRESS, TO_ADDRESS)
+        with allure.step("Заполняем маршрут"):
+            main.fill_route(FROM_ADDRESS, TO_ADDRESS)
 
-        route.click_fast()
-
-        fast_price = route.get_price()
-        fast_duration = route.get_duration()
+        with allure.step("Выбираем быстрый маршрут и фиксируем данные"):
+            route.click_fast()
+            fast_price = route.get_price()
+            fast_duration = route.get_duration()
 
         assert route.get_active_tab() == "Быстрый"
 
-        route.click_optimal()
-
-        optimal_price = route.get_price()
-        optimal_duration = route.get_duration()
+        with allure.step("Переключаемся на оптимальный маршрут и фиксируем данные"):
+            route.click_optimal()
+            optimal_price = route.get_price()
+            optimal_duration = route.get_duration()
 
         assert route.get_active_tab() == "Оптимальный"
         assert fast_price != optimal_price or fast_duration != optimal_duration
@@ -39,12 +40,16 @@ class TestRoutePrepare:
         main = MainPage(driver)
         route = RoutePage(driver)
 
-        main.fill_route(FROM_ADDRESS, TO_ADDRESS)
+        with allure.step("Заполняем маршрут"):
+            main.fill_route(FROM_ADDRESS, TO_ADDRESS)
 
-        route.click_custom()
+        with allure.step("Выбираем режим Свой"):
+            route.click_custom()
 
         assert route.get_active_tab() == "Свой"
-        assert route.all_transport_visible()
+
+        with allure.step("Проверяем отображение доступного транспорта"):
+            assert route.all_transport_visible()
 
     @allure.title("В режиме Быстрый доступна кнопка Вызвать такси")
     def test_fast_route_has_call_button(self, driver):
@@ -52,11 +57,14 @@ class TestRoutePrepare:
         main = MainPage(driver)
         route = RoutePage(driver)
 
-        main.fill_route(FROM_ADDRESS, TO_ADDRESS)
+        with allure.step("Заполняем маршрут"):
+            main.fill_route(FROM_ADDRESS, TO_ADDRESS)
 
-        route.click_fast()
+        with allure.step("Выбираем быстрый маршрут"):
+            route.click_fast()
 
-        assert route.call_taxi_button_visible()
+        with allure.step("Проверяем наличие кнопки вызова такси"):
+            assert route.call_taxi_button_visible()
 
     @allure.title("В режиме Драйв доступна кнопка Забронировать")
     def test_drive_route_has_book_button(self, driver):
@@ -64,9 +72,12 @@ class TestRoutePrepare:
         main = MainPage(driver)
         route = RoutePage(driver)
 
-        main.fill_route(FROM_ADDRESS, TO_ADDRESS)
+        with allure.step("Заполняем маршрут"):
+            main.fill_route(FROM_ADDRESS, TO_ADDRESS)
 
-        route.click_custom()
-        route.click_drive()
+        with allure.step("Переходим в режим Свой и выбираем Drive"):
+            route.click_custom()
+            route.click_drive()
 
-        assert route.book_button_visible()
+        with allure.step("Проверяем наличие кнопки бронирования"):
+            assert route.book_button_visible()
