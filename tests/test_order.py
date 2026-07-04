@@ -22,9 +22,15 @@ class TestOrder:
         taxi_page.click_order_button()
 
     @allure.title("После оформления заказа отображается окно поиска машины")
-    def test_search_window(self, order_page):
+    def test_search_window_visible(self, order_page):
         assert order_page.search_window_visible()
+
+    @allure.title("В окне поиска машины отображается корректный заголовок")
+    def test_search_window_title(self, order_page):
         assert order_page.search_title() == "Поиск машины"
+
+    @allure.title("В окне поиска машины отображается таймер")
+    def test_search_timer_visible(self, order_page):
         assert order_page.search_timer_visible()
 
     @allure.title("В деталях заказа отображается корректная информация")
